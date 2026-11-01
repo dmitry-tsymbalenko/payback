@@ -13,6 +13,7 @@ from fastapi import FastAPI
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
 
 from payback import __version__
+from payback.api import telegram_updates
 from payback.api.webhooks import create_router as create_webhook_router
 from payback.config import Settings, get_settings
 from payback.services.ports import NotifierPort, PlanfixPort
@@ -32,21 +33,31 @@ def _on_polling_done(task: asyncio.Task[Any]) -> None:
 
 @asynccontextmanager
 async def _lifespan(app: FastAPI) -> AsyncIterator[None]:
-    """Run aiogram polling with the HTTP app; clean up on uvicorn shutdown."""
     bot = getattr(app.state, "bot", None)
     dispatcher = getattr(app.state, "dispatcher", None)
+    update_mode = getattr(app.state, "telegram_update_mode", "polling")
     if bot is not None and dispatcher is not None:
         await bot.get_me()
-        await bot.delete_webhook(drop_pending_updates=True)
-        polling_task = asyncio.create_task(
-            dispatcher.start_polling(
-                bot,
-                handle_signals=False,
-                close_bot_session=False,
+        if update_mode == "webhook":
+            webhook_url = app.state.telegram_webhook_url
+            secret = app.state.telegram_webhook_secret
+            await bot.set_webhook(
+                url=webhook_url,
+                secret_token=secret,
+                drop_pending_updates=True,
             )
-        )
-        polling_task.add_done_callback(_on_polling_done)
-        app.state.polling_task = polling_task
+            logger.info("telegram webhook registered", extra={"url": webhook_url})
+        else:
+            await bot.delete_webhook(drop_pending_updates=True)
+            polling_task = asyncio.create_task(
+                dispatcher.start_polling(
+                    bot,
+                    handle_signals=False,
+                    close_bot_session=False,
+                )
+            )
+            polling_task.add_done_callback(_on_polling_done)
+            app.state.polling_task = polling_task
 
     flush_stop: asyncio.Event | None = getattr(app.state, "pending_flush_stop", None)
     flush_factory = getattr(app.state, "pending_flush_factory", None)
@@ -63,7 +74,7 @@ async def _lifespan(app: FastAPI) -> AsyncIterator[None]:
             flush_task.cancel()
             with suppress(asyncio.CancelledError):
                 await flush_task
-        if dispatcher is not None:
+        if update_mode == "polling" and dispatcher is not None:
             with suppress(RuntimeError):
                 await dispatcher.stop_polling()
         current_polling_task = getattr(app.state, "polling_task", None)
@@ -93,10 +104,15 @@ def create_app(
     dispatcher: Any | None = None,
     live_planfix_client: Any | None = None,
 ) -> FastAPI:
-    """Build the HTTP app (health + PlanFix webhook intake)."""
+    """Build the HTTP app (health + Planfix / Telegram webhook intake)."""
     settings = settings if settings is not None else get_settings()
     app = FastAPI(title="payback", version=__version__, lifespan=_lifespan)
     app.state.webhook_secret = settings.webhook_secret.get_secret_value()
+    app.state.telegram_webhook_secret = settings.webhook_secret.get_secret_value()
+    app.state.telegram_update_mode = settings.telegram_update_mode
+    app.state.telegram_webhook_url = (
+        settings.telegram_webhook_url() if settings.telegram_update_mode == "webhook" else None
+    )
     # Testable sink for webhook intake; processing still appends here when configured.
     app.state.webhook_events = []
     app.state.session_factory = session_factory
@@ -136,6 +152,7 @@ def create_app(
             download_file=_download,
         )
     app.include_router(create_webhook_router())
+    app.include_router(telegram_updates.create_router())
 
     @app.get("/health")
     async def health() -> dict[str, str]:

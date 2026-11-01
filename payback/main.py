@@ -1,4 +1,4 @@
-"""Process entry point: FastAPI + aiogram polling in one event loop."""
+"""Process entry point: FastAPI + Telegram updates (polling or webhook) in one event loop."""
 
 import asyncio
 import logging
@@ -59,6 +59,8 @@ def describe(settings: Settings) -> dict[str, object]:
         "planfix_account": settings.planfix.account,
         "planfix_object_id": settings.planfix.object_id,
         "database": settings.database_url.split("://", 1)[0],
+        "telegram_update_mode": settings.telegram_update_mode,
+        "domain": settings.domain,
         "dev_mode": settings.dev_mode,
         "allow_dev_mode": settings.allow_dev_mode,
         "allow_no_receipt": settings.allow_no_receipt,

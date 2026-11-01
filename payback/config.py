@@ -123,6 +123,10 @@ class Settings(BaseSettings):
     proxy_url: str | None = None
     """Optional proxy for the Telegram API, for hosts without direct access."""
 
+    telegram_update_mode: Literal["polling", "webhook"] = "polling"
+
+    domain: str | None = None
+
     webhook_secret: SecretStr
     database_url: str = "postgresql+asyncpg://payback:payback@127.0.0.1:5432/payback"
 
@@ -148,7 +152,7 @@ class Settings(BaseSettings):
 
     planfix: PlanfixSettings = Field(default_factory=lambda: PlanfixSettings())
 
-    @field_validator("proxy_url", "no_receipt_max_amount", mode="before")
+    @field_validator("proxy_url", "no_receipt_max_amount", "domain", mode="before")
     @classmethod
     def blank_means_unset(cls, value: object) -> object:
         """An empty variable means "not set".
@@ -159,6 +163,14 @@ class Settings(BaseSettings):
         if isinstance(value, str) and not value.strip():
             return None
         return value
+
+    @field_validator("domain")
+    @classmethod
+    def normalize_domain(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        host = value.strip().removeprefix("https://").removeprefix("http://").rstrip("/")
+        return host or None
 
     @field_validator("max_amount", "no_receipt_max_amount")
     @classmethod
@@ -188,6 +200,21 @@ class Settings(BaseSettings):
                 "(refuses to start without an explicit non-prod admit)"
             )
         return self
+
+    @model_validator(mode="after")
+    def webhook_mode_requires_domain(self) -> "Settings":
+        if self.telegram_update_mode == "webhook" and not self.domain:
+            raise ValueError(
+                "DOMAIN is required when TELEGRAM_UPDATE_MODE=webhook "
+                "(public HTTPS hostname for setWebhook)"
+            )
+        return self
+
+    def telegram_webhook_url(self) -> str:
+        """HTTPS URL registered with Telegram when ``telegram_update_mode`` is webhook."""
+        if not self.domain:
+            raise ValueError("DOMAIN is not set")
+        return f"https://{self.domain}/webhooks/telegram"
 
     def secrets(self) -> list[str]:
         """Every secret value, for registration with the log redactor."""
