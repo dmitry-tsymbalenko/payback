@@ -56,7 +56,7 @@ feature parity with prod (e.g. `SKIP LOCKED`) is not guaranteed there.
 | Service | Role |
 |---------|------|
 | `db` | PostgreSQL 16; data in volume `pgdata` |
-| `app` | `alembic upgrade head`, then FastAPI + Telegram polling (port 8000 internal only) |
+| `app` | `alembic upgrade head`, then FastAPI + Telegram bot (polling or webhook; port 8000 internal only) |
 | `caddy` | HTTPS on 80/443 → `app:8000`; Let's Encrypt when `DOMAIN` is public |
 
 ## PlanFix webhook
@@ -78,4 +78,7 @@ docker compose down -v       # wipe Postgres and cert data
 
 - App is **not** published as host `:8000` anymore; use `https://$DOMAIN/health`.
 - First certificate issuance needs DNS already pointing at this machine.
-- Telegram can stay on **long polling**; Caddy is required for **PlanFix → you** webhooks.
+- Telegram updates: `TELEGRAM_UPDATE_MODE=polling` (default, local) or `webhook` (prod).
+  Webhook mode needs `DOMAIN` and registers `https://$DOMAIN/webhooks/telegram`
+  (same `WEBHOOK_SECRET` as the Telegram `secret_token` header).
+- Caddy is required for **Planfix → you** and for **Telegram → you** when using webhook mode.
