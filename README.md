@@ -48,11 +48,10 @@ Payback связывает полевых сотрудников и офис: ч
 |----------|----------|
 | [docs/spec.md](docs/spec.md) | Подробная спецификация |
 | [docs/deploy.md](docs/deploy.md) | Развёртывание |
-| [docs/planfix-notes.md](docs/planfix-notes.md) | Заметки по API Planfix |
 | [docs/planfix_setup/setup.md](docs/planfix_setup/setup.md) | Настройка объекта в Planfix |
 | [docs/payback_lifecycle_telegram_bot_planfix.jpg](docs/payback_lifecycle_telegram_bot_planfix.jpg) | Техническая схема lifecycle |
 
-Рабочий план разработки (`docs/plan.md`) — внутренний черновик, не витрина продукта.
+Внутренние черновики (`docs/plan.md`, заметки по API Planfix) в публичный репозиторий не входят.
 
 ## Быстрый старт (разработчик)
 
@@ -75,4 +74,5 @@ curl -fsS "https://$DOMAIN/health"
 
 ## Статус
 
-Репозиторий — рабочая реализация модуля согласования расходов (Telegram + Planfix). Лицензия пока не оформлена отдельным файлом; перед публичным релизом её стоит зафиксировать явно.
+Рабочая реализация согласования расходов (Telegram + Planfix).  
+Лицензия: [MIT](LICENSE).
