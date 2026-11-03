@@ -1,11 +1,11 @@
 """Settings read from environment variables.
 
-The Planfix object, field and status ids add up to ~20 variables. They are grouped
+The ПланФикс object, field and status ids add up to ~20 variables. They are grouped
 into nested settings models that each read their own prefix, so the environment
 names stay exactly as documented (``PLANFIX_FIELD_AMOUNT``) while code
 reads ``settings.planfix.fields.amount``.
 
-Two PlanFix quirks shape this module:
+Two ПланФикс quirks shape this module:
 
 * Status **names differ between accounts** — e.g. id 108 may be "компенсация завершена"
   on one account and "Компенсировано" on another — so every status is addressed by id.
@@ -143,7 +143,7 @@ class Settings(BaseSettings):
     no_receipt_max_amount: Decimal | None = None
 
     dev_mode: bool = False
-    """When true (and ALLOW_DEV_MODE), PlanFix outages fall back to FakePlanFix."""
+    """When true (and ALLOW_DEV_MODE), ПланФикс outages fall back to FakePlanfix."""
 
     allow_dev_mode: bool = False
     """Explicit non-prod admit. Required if DEV_MODE=true."""

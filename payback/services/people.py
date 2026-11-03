@@ -36,7 +36,7 @@ class InviteNotFoundError(LookupError):
 
 
 class PlanfixLinkConflictError(ValueError):
-    """Another local user already claims this Planfix account."""
+    """Another local user already claims this ПланФикс account."""
 
 
 @dataclass(frozen=True, slots=True)
@@ -197,7 +197,7 @@ class PeopleService:
         return employee, new_manager
 
     async def link_planfix_user(self, manager_telegram_id: int, planfix_user_id: int) -> User:
-        """Bind the manager's local account to a Planfix user id."""
+        """Bind the manager's local account to a ПланФикс user id."""
         manager = await self.verify_manager(manager_telegram_id)
         existing = await self._users.get_by_planfix_user_id(planfix_user_id)
         if existing is not None and existing.id != manager.id:

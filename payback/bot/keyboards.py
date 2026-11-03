@@ -20,7 +20,7 @@ def invite_role_keyboard() -> InlineKeyboardMarkup:
 
 
 def staff_keyboard(overview: StaffOverview) -> InlineKeyboardMarkup:
-    """Actions for subordinates, unused invites, and Planfix linking."""
+    """Actions for subordinates, unused invites, and ПланФикс linking."""
     rows: list[list[InlineKeyboardButton]] = []
     for employee in overview.subordinates:
         name = f"{employee.first_name} {employee.last_name}"
@@ -79,7 +79,7 @@ def transfer_managers_keyboard(employee_id: int, managers: list[User]) -> Inline
 
 
 def planfix_users_keyboard(users: list[PlanfixUser]) -> InlineKeyboardMarkup:
-    """Let the manager pick which Planfix account is theirs."""
+    """Let the manager pick which ПланФикс account is theirs."""
     rows = [
         [
             InlineKeyboardButton(

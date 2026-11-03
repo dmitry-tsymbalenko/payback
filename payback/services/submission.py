@@ -1,4 +1,4 @@
-"""Push a confirmed expense draft into the local DB and PlanFix."""
+"""Push a confirmed expense draft into the local DB and ПланФикс."""
 
 # ruff: noqa: RUF001
 
@@ -58,7 +58,7 @@ def format_duplicate_receipt_message(existing: Expense) -> str:
 
 
 class SubmissionService:
-    """Create or resume Planfix publication for one expense."""
+    """Create or resume ПланФикс publication for one expense."""
 
     def __init__(
         self,
@@ -79,7 +79,7 @@ class SubmissionService:
         employee: User,
         manager: User | None,
     ) -> Expense:
-        """Persist a new expense from a draft and publish it to Planfix."""
+        """Persist a new expense from a draft and publish it to ПланФикс."""
         await self._reject_duplicate(draft)
         if (
             draft.amount is None
@@ -122,7 +122,7 @@ class SubmissionService:
         image_filename: str = "receipt.jpg",
         image_content_type: str = "image/jpeg",
     ) -> Expense:
-        """Finish Planfix steps left incomplete after a previous failure."""
+        """Finish ПланФикс steps left incomplete after a previous failure."""
         if expense.status is ExpenseStatus.PENDING:
             await self._notify_manager_if_needed(
                 expense,
@@ -152,7 +152,7 @@ class SubmissionService:
         image_filename: str,
         image_content_type: str,
     ) -> Expense:
-        """Publish to Planfix; on API failure keep the local row for later resume."""
+        """Publish to ПланФикс; on API failure keep the local row for later resume."""
         try:
             return await self._publish(
                 expense,

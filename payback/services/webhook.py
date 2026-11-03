@@ -1,4 +1,4 @@
-"""Apply PlanFix task status changes from webhooks."""
+"""Apply ПланФикс task status changes from webhooks."""
 
 # ruff: noqa: RUF001
 
@@ -39,7 +39,7 @@ _MAX_COMMENT_PAGES = 20
 
 
 class WebhookService:
-    """Reconcile local expenses with PlanFix after a verified webhook."""
+    """Reconcile local expenses with ПланФикс after a verified webhook."""
 
     def __init__(
         self,
@@ -114,9 +114,9 @@ class WebhookService:
         )
         await self._expenses.set_status(expense, new_status)
         # Commit before Telegram side effects: HTTP 200 already went out, and a
-        # notify failure must not leave local status behind PlanFix.
+        # notify failure must not leave local status behind ПланФикс.
         await self._expenses.commit()
-        # Returning to "pending" (e.g. employee clarified) is not a PlanFix decision —
+        # Returning to "pending" (e.g. employee clarified) is not a ПланФикс decision —
         # the bot re-sends a fresh card; do not stamp the old one as decided.
         if new_status is not ExpenseStatus.PENDING:
             await self._mark_manager_card(expense)
@@ -205,7 +205,7 @@ class WebhookService:
 
 
 def status_for_planfix_id(status_ids: PlanfixStatusIds, status_id: int) -> ExpenseStatus | None:
-    """Map a configured PlanFix status id to the local enum."""
+    """Map a configured ПланФикс status id to the local enum."""
     mapping = {
         status_ids.pending: ExpenseStatus.PENDING,
         status_ids.clarification: ExpenseStatus.CLARIFICATION,
@@ -234,7 +234,7 @@ def _status_id_from_task(task: Mapping[str, Any] | dict[str, Any]) -> int | None
 
 
 def _user_ref_id(value: object) -> str | None:
-    """Normalize PlanFix user refs to ``user:N`` (assigner / comment owner)."""
+    """Normalize ПланФикс user refs to ``user:N`` (assigner / comment owner)."""
     if not isinstance(value, dict):
         return None
     raw = value.get("id")

@@ -3,7 +3,7 @@
 Two things on top of a plain formatter:
 
 * every record carries whatever context is bound around it — ``expense_id`` and
-  ``planfix_task_id`` — so one expense can be followed across the bot, the Planfix
+  ``planfix_task_id`` — so one expense can be followed across the bot, the ПланФикс
   client and the webhook handler;
 * values registered with :func:`redact` are masked in the rendered line, so a token
   cannot reach the log through an exception message or a stray repr.

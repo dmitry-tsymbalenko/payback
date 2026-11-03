@@ -1,4 +1,4 @@
-"""PlanFix webhook intake."""
+"""ПланФикс webhook intake."""
 
 from __future__ import annotations
 
@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 class PlanfixWebhookBody(BaseModel):
-    """JSON body sent by PlanFix HTTP webhook actions."""
+    """JSON body sent by ПланФикс HTTP webhook actions."""
 
     task: int
     secret: str
@@ -36,7 +36,7 @@ def create_router() -> APIRouter:
         expected = request.app.state.webhook_secret
         if not hmac.compare_digest(body.secret, expected):
             raise HTTPException(status_code=403, detail="Forbidden")
-        # Respond first; PlanFix retries on slow/non-200 responses.
+        # Respond first; ПланФикс retries on slow/non-200 responses.
         background_tasks.add_task(
             process_planfix_webhook,
             task_id=body.task,

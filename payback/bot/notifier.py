@@ -69,7 +69,7 @@ class TelegramNotifier:
             )
         except TelegramAPIError as error:
             if _is_message_not_modified(error):
-                # Already cleared (double clear / race with PlanFix mark) — fine.
+                # Already cleared (double clear / race with ПланФикс mark) — fine.
                 return
             logger.exception(
                 "failed to clear manager decision keyboard",
@@ -108,7 +108,7 @@ class TelegramNotifier:
             if _is_message_not_modified(error):
                 return
             logger.exception(
-                "failed to mark manager card decided in PlanFix",
+                "failed to mark manager card decided in Planfix",
                 extra={"manager_telegram_id": chat_id, "message_id": message_id},
             )
             await self.clear_manager_decision_keyboard(manager=manager, message_id=message_id)

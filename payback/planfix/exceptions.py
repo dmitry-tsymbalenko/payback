@@ -1,8 +1,8 @@
-"""Domain errors raised for unsuccessful Planfix REST operations."""
+"""Domain errors raised for unsuccessful ПланФикс REST operations."""
 
 
 class PlanfixError(RuntimeError):
-    """Planfix could not complete a requested operation."""
+    """ПланФикс could not complete a requested operation."""
 
 
 class PlanfixScopeDenied(PlanfixError):  # noqa: N818 - public name follows the project specification.
@@ -10,17 +10,17 @@ class PlanfixScopeDenied(PlanfixError):  # noqa: N818 - public name follows the 
 
 
 class PlanfixNotFound(PlanfixError):  # noqa: N818 - public name follows the project specification.
-    """The requested Planfix resource does not exist or is inaccessible."""
+    """The requested ПланФикс resource does not exist or is inaccessible."""
 
 
 class PlanfixSchemaError(PlanfixError):
-    """The configured expense-card fields do not match the Planfix account."""
+    """The configured expense-card fields do not match the ПланФикс account."""
 
 
-class PlanfixIdempotencyConflict(PlanfixError):
-    """Planfix rejected a create because the Idempotency-Key was already consumed.
+class PlanfixIdempotencyConflict(PlanfixError):  # noqa: N818 - public API name
+    """ПланФикс rejected a create because the Idempotency-Key was already consumed.
 
-    Unlike standard HTTP idempotency, PlanFix does not replay the original success
+    Unlike standard HTTP idempotency, ПланФикс does not replay the original success
     body — only this error. ``task_id`` is set when the fail payload still carries it.
     """
 

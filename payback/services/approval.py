@@ -59,7 +59,7 @@ class ApprovalService:
         expense, employee = await self._load_pending_for_manager(expense_id, manager)
         await self._push_planfix(expense, status_id=self._status_ids.approved)
         await self._expenses.set_status(expense, ExpenseStatus.APPROVED)
-        # Commit before Telegram side effects so a notify failure cannot undo PlanFix.
+        # Commit before Telegram side effects so a notify failure cannot undo ПланФикс.
         await self._expenses.commit()
         await self._finish_ui(manager=manager, employee=employee, expense=expense)
         return expense

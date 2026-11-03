@@ -17,7 +17,7 @@ from payback.services.notifications import NotifierPort
 
 
 class PlanfixPort(Protocol):
-    """Planfix operations required to push and update expense tasks."""
+    """ПланФикс operations required to push and update expense tasks."""
 
     async def create_task(
         self,

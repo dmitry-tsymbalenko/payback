@@ -61,7 +61,7 @@ class ClarificationService:
             image_content_type=image_content_type,
         )
         await self._expenses.set_status(expense, ExpenseStatus.PENDING)
-        # Commit before Telegram notify so a send failure cannot undo PlanFix.
+        # Commit before Telegram notify so a send failure cannot undo ПланФикс.
         await self._expenses.commit()
         if manager is not None:
             reply_for_manager = text if text is not None else "Ответ сотрудника (фото)"

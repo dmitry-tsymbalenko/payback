@@ -1,4 +1,4 @@
-"""Formatting helpers for PlanFix-facing strings.
+"""Formatting helpers for ПланФикс-facing strings.
 
 API comments are always authored by the robot token; put the human name in the body.
 """
@@ -12,13 +12,13 @@ _TAG = re.compile(r"<[^>]+>")
 
 
 def attributed_comment(author: User, body: str) -> str:
-    """Prefix a PlanFix comment with the acting Telegram user's name."""
+    """Prefix a ПланФикс comment with the acting Telegram user's name."""
     name = f"{author.first_name} {author.last_name}".strip()
     return f"{name}:\n{body}"
 
 
 def plain_comment_text(value: str) -> str:
-    """Strip PlanFix UI HTML so comments are readable in Telegram."""
+    """Strip ПланФикс UI HTML so comments are readable in Telegram."""
     text = value.replace("<br>", "\n").replace("<br/>", "\n").replace("<br />", "\n")
     text = re.sub(r"</p\s*>", "\n", text, flags=re.IGNORECASE)
     text = _TAG.sub("", text)

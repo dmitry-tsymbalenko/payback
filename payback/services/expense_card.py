@@ -1,4 +1,4 @@
-"""Build Planfix task names and custom-field payloads for an expense card."""
+"""Build ПланФикс task names and custom-field payloads for an expense card."""
 
 from decimal import Decimal
 
@@ -9,7 +9,7 @@ from payback.services.draft import SubmissionDraft
 
 
 def task_name(*, amount: Decimal, category_name: str, employee_name: str) -> str:
-    """Format the Planfix task title."""
+    """Format the ПланФикс task title."""
     return f"Расход: {_format_amount(amount)} ₽, {category_name} — {employee_name}"
 
 
@@ -23,7 +23,7 @@ def custom_field_data_for_draft(
     employee_name: str,
     field_ids: PlanfixFieldIds,
 ) -> list[dict[str, object]]:
-    """Serialize a draft into Planfix ``customFieldData``."""
+    """Serialize a draft into ПланФикс ``customFieldData``."""
     if draft.amount is None or draft.purchase_date is None or draft.category_id is None:
         raise ValueError("submission draft is incomplete")
     values: dict[int, planfix_fields.FieldValue | None] = {
@@ -51,7 +51,7 @@ def custom_field_data_for_expense(
     employee_name: str,
     field_ids: PlanfixFieldIds,
 ) -> list[dict[str, object]]:
-    """Serialize a persisted expense into Planfix ``customFieldData``."""
+    """Serialize a persisted expense into ПланФикс ``customFieldData``."""
     draft = SubmissionDraft(
         amount=expense.amount,
         purchase_date=expense.purchase_date,

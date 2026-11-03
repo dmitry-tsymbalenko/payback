@@ -1,4 +1,4 @@
-"""Planfix custom-field value conversion.
+"""ПланФикс custom-field value conversion.
 
 The REST API uses the same envelope for every custom field, while the value shape is
 specific to its type. Keeping that detail here prevents services from hand-writing
@@ -21,7 +21,7 @@ def number(value: Decimal | int | float) -> int | float:
 
 
 def date_value(value: date) -> dict[str, str]:
-    """Serialize a Planfix date field in its documented day-first format."""
+    """Serialize a ПланФикс date field in its documented day-first format."""
     return {"date": value.strftime("%d-%m-%Y")}
 
 
@@ -31,7 +31,7 @@ def directory_value(key: int) -> dict[str, int]:
 
 
 def read_date_value(value: Mapping[str, object]) -> date:
-    """Deserialize a Planfix date field."""
+    """Deserialize a ПланФикс date field."""
     raw_date = value.get("date")
     if not isinstance(raw_date, str):
         raise ValueError("Planfix date value has no date")
@@ -39,7 +39,7 @@ def read_date_value(value: Mapping[str, object]) -> date:
 
 
 def read_directory_value(value: Mapping[str, object]) -> int:
-    """Deserialize a selected Planfix directory-entry key."""
+    """Deserialize a selected ПланФикс directory-entry key."""
     key = value.get("id")
     if isinstance(key, int) and not isinstance(key, bool):
         return key
@@ -47,7 +47,7 @@ def read_directory_value(value: Mapping[str, object]) -> int:
 
 
 def custom_field(field_id: int, value: FieldValue) -> dict[str, object]:
-    """Wrap one converted value in Planfix's custom-field envelope."""
+    """Wrap one converted value in ПланФикс's custom-field envelope."""
     return {"field": {"id": field_id}, "value": value}
 
 

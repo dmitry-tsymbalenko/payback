@@ -30,7 +30,7 @@ logger = logging.getLogger(__name__)
 EXIT_BAD_CONFIG = 2
 EXIT_SIGINT = 130
 
-# Stable fake directory ids for offline DEV_MODE (no live PlanFix).
+# Stable fake directory ids for offline DEV_MODE (no live ПланФикс).
 _DEV_CATEGORY_DIRECTORY_ID = 9001
 _DEV_DIRECTION_DIRECTORY_ID = 9002
 
@@ -71,7 +71,7 @@ def describe(settings: Settings) -> dict[str, object]:
 
 
 def offline_planfix_stack() -> tuple[FakePlanfix, PlanfixSchema]:
-    """In-memory PlanFix stand-in with sample directories for local Telegram tests."""
+    """In-memory ПланФикс stand-in with sample directories for local Telegram tests."""
     planfix = FakePlanfix(
         directory_entries={
             _DEV_CATEGORY_DIRECTORY_ID: [
@@ -95,7 +95,7 @@ def offline_planfix_stack() -> tuple[FakePlanfix, PlanfixSchema]:
 async def connect_planfix(
     settings: Settings,
 ) -> tuple[PlanfixPort, PlanfixSchema, Any | None]:
-    """Return a live PlanFix client, or FakePlanfix when DEV_MODE (with ALLOW_DEV_MODE).
+    """Return a live ПланФикс client, or FakePlanfix when DEV_MODE (with ALLOW_DEV_MODE).
 
     Schema mismatches always fail startup. Transport/other failures may fall back
     to FakePlanfix only when ``dev_mode`` is set.
@@ -151,7 +151,7 @@ async def main() -> int:
     try:
         planfix, planfix_schema, live_client = await connect_planfix(settings)
     except Exception:
-        logger.exception("PlanFix schema validation failed")
+        logger.exception("Planfix schema validation failed")
         await bot.session.close()
         await engine.dispose()
         return 1

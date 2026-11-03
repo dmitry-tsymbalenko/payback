@@ -1,4 +1,4 @@
-"""In-memory Planfix and notifier doubles for service tests."""
+"""In-memory ПланФикс and notifier doubles for service tests."""
 
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass, field
@@ -18,7 +18,7 @@ _FailOn = str | None
 
 @dataclass
 class FakePlanfix:
-    """Record Planfix mutations and optionally fail on a named step."""
+    """Record ПланФикс mutations and optionally fail on a named step."""
 
     users: list[PlanfixUser] = field(default_factory=list)
     directory_entries: dict[int, list[PlanfixDirectoryEntry]] = field(default_factory=dict)
@@ -36,7 +36,7 @@ class FakePlanfix:
     files: dict[int, bytes] = field(default_factory=dict)
     attachments: list[tuple[int, int]] = field(default_factory=list)
     task_updates: list[tuple[int, dict[str, object]]] = field(default_factory=list)
-    # (task_id, description, owner_id) — owner_id mirrors PlanFix ``user:N``.
+    # (task_id, description, owner_id) — owner_id mirrors ПланФикс ``user:N``.
     comments: list[tuple[int, str, str | None]] = field(default_factory=list)
     robot_owner_id: str = "user:7"
     _next_task_id: int = 100
@@ -148,7 +148,7 @@ class FakePlanfix:
         self.comment_list_requests.append((offset, page_size))
         if self.fail_on == "list_comments":
             raise PlanfixError("fake list_comments failure")
-        # Newest first (PlanFix order).
+        # Newest first (ПланФикс order).
         rows = [(text, owner) for tid, text, owner in self.comments if tid == task_id]
         page = list(reversed(rows))[offset : offset + page_size]
         return [

@@ -1,4 +1,4 @@
-"""Print PlanFix field/status ids as env lines for manual paste into the env file.
+"""Print ПланФикс field/status ids as env lines for manual paste into the env file.
 
 Needs only PLANFIX_ACCOUNT, PLANFIX_API_TOKEN, PLANFIX_OBJECT_ID.
 Env file path: ``PAYBACK_ENV_FILE`` (same as compose), default ``.env``.
@@ -37,7 +37,7 @@ def _env_file_path() -> Path:
     return Path(raw).expanduser()
 
 
-# Expected card fields: env key → (PlanFix type id, accepted display names).
+# Expected card fields: env key → (ПланФикс type id, accepted display names).
 _FIELD_TARGETS: tuple[tuple[str, int, tuple[str, ...]], ...] = (
     ("PLANFIX_FIELD_AMOUNT", 1, ("Сумма",)),
     ("PLANFIX_FIELD_PURCHASE_DATE", 3, ("Дата покупки",)),
@@ -206,7 +206,7 @@ def format_report(
     lines.extend(_format_matches(fields))
     if unmatched_directories:
         lines.append(
-            "# Unmapped directory fields (rename in PlanFix or set CATEGORY/DIRECTION by hand):"
+            "# Unmapped directory fields (rename in ПланФикс or set CATEGORY/DIRECTION by hand):"
         )
         lines.extend(f"#   {line}" for line in unmatched_directories)
     lines.append("")
@@ -276,7 +276,7 @@ async def _run() -> int:
             print(
                 f"PLANFIX_OBJECT_ID={settings.object_id} is not a valid REST Object id "
                 f"({error}).\n"
-                "The objectId in the PlanFix UI URL is often NOT the REST id.\n"
+                "The objectId in the ПланФикс UI URL is often NOT the REST id.\n"
                 "Set PLANFIX_OBJECT_ID to one of these (from POST /object/list):\n"
                 f"{_format_objects(objects)}\n"
                 "Hint: look for «Расход». Or open any Расход task via API and read "

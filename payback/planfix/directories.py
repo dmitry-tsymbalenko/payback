@@ -12,7 +12,7 @@ _DIRECTORY_TTL_SECONDS = 600.0
 
 
 class DirectoryClient(Protocol):
-    """Minimal Planfix surface needed to load directory entries."""
+    """Minimal ПланФикс surface needed to load directory entries."""
 
     async def get_directory(self, directory_id: int) -> PlanfixDirectory: ...
 
@@ -28,7 +28,7 @@ class _CachedDirectory:
 
 
 class DirectoryCache:
-    """Cache Planfix directory entries and keep the last good result on outages."""
+    """Cache ПланФикс directory entries and keep the last good result on outages."""
 
     def __init__(
         self,

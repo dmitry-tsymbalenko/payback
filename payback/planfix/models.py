@@ -1,4 +1,4 @@
-"""Small normalized values returned by the Planfix client."""
+"""Small normalized values returned by the ПланФикс client."""
 
 from dataclasses import dataclass
 

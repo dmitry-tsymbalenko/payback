@@ -1,13 +1,13 @@
 # Deploy (stage 11)
 
-PlanFix GUI steps: [planfix_setup/setup.md](planfix_setup/setup.md).
+Шаги GUI ПланФикса: [planfix_setup/setup.md](planfix_setup/setup.md).
 
 Stack: **app** (bot + FastAPI) + **PostgreSQL** + **Caddy** (HTTPS).
 
 ## Prerequisites
 
 - Docker and Docker Compose plugin
-- Env file with bot/PlanFix secrets (see `.env.example`)
+- Env file with bot/ПланФикс secrets (see `.env.example`)
 - Public DNS name pointing at the VPS (e.g. DuckDNS) for real certificates
 - Ports **80** and **443** open on the host
 
@@ -16,10 +16,10 @@ Prefer keeping secrets **outside** the git workspace:
 ```bash
 mkdir -p ~/.config/payback
 cp .env.example ~/.config/payback/env
-# edit ~/.config/payback/env — fill BOT_TOKEN, PlanFix, WEBHOOK_SECRET, DOMAIN, …
+# edit ~/.config/payback/env — fill BOT_TOKEN, настройки ПланФикса, WEBHOOK_SECRET, DOMAIN, …
 ```
 
-Local offline Telegram tests: set both `DEV_MODE=true` and `ALLOW_DEV_MODE=true` so a unreachable PlanFix can fall back to FakePlanFix. Schema mismatches still refuse to start. Never enable either flag in production.
+Local offline Telegram tests: set both `DEV_MODE=true` and `ALLOW_DEV_MODE=true` so an unreachable ПланФикс can fall back to `FakePlanfix`. Schema mismatches still refuse to start. Never enable either flag in production.
 
 ## Run
 
@@ -59,7 +59,7 @@ feature parity with prod (e.g. `SKIP LOCKED`) is not guaranteed there.
 | `app` | `alembic upgrade head`, then FastAPI + Telegram bot (polling or webhook; port 8000 internal only) |
 | `caddy` | HTTPS on 80/443 → `app:8000`; Let's Encrypt when `DOMAIN` is public |
 
-## PlanFix webhook
+## Вебхук ПланФикса
 
 ```text
 POST https://<DOMAIN>/webhooks/planfix
@@ -81,4 +81,4 @@ docker compose down -v       # wipe Postgres and cert data
 - Telegram updates: `TELEGRAM_UPDATE_MODE=polling` (default, local) or `webhook` (prod).
   Webhook mode needs `DOMAIN` and registers `https://$DOMAIN/webhooks/telegram`
   (same `WEBHOOK_SECRET` as the Telegram `secret_token` header).
-- Caddy is required for **Planfix → you** and for **Telegram → you** when using webhook mode.
+- Caddy is required for **ПланФикс → you** and for **Telegram → you** when using webhook mode.

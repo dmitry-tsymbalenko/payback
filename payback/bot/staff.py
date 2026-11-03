@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 
 
 class PlanfixUsersPort(Protocol):
-    """Minimal Planfix surface needed to link a manager account."""
+    """Minimal ПланФикс surface needed to link a manager account."""
 
     async def list_users(self) -> list[PlanfixUser]: ...
 

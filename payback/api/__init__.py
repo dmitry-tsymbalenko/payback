@@ -1,4 +1,4 @@
-"""HTTP API: health and PlanFix webhooks."""
+"""HTTP API: health and ПланФикс webhooks."""
 
 from payback.api.app import create_app
 

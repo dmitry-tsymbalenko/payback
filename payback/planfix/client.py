@@ -1,4 +1,4 @@
-"""Async client for the small, verified Planfix REST API surface."""
+"""Async client for the small, verified ПланФикс REST API surface."""
 
 import asyncio
 from collections.abc import Awaitable, Callable, Iterable, Mapping
@@ -24,7 +24,7 @@ from payback.planfix.models import (
 _DEFAULT_TIMEOUT = httpx.Timeout(15.0, connect=5.0)
 _MAX_ATTEMPTS = 3
 _PAGE_SIZE = 100
-# Complex filter types from PlanFix REST docs (task/list).
+# Complex filter types from ПланФикс REST docs (task/list).
 _FILTER_NAME = 8
 _FILTER_CREATED = 12
 _FILTER_OBJECT = 325
@@ -33,12 +33,12 @@ Sleep = Callable[[float], Awaitable[None]]
 
 
 def expense_task_marker(expense_id: int) -> str:
-    """Stable token embedded in the Planfix task for idempotent recovery."""
+    """Stable token embedded in the ПланФикс task for idempotent recovery."""
     return f"[payback-expense:{expense_id}]"
 
 
 class PlanfixClient:
-    """Make authenticated requests and normalize Planfix's response envelopes.
+    """Make authenticated requests and normalize ПланФикс's response envelopes.
 
     The deterministic key is deliberately limited to task creation. Other mutation
     endpoints do not have a stable local identifier that can safely be reused.
@@ -336,7 +336,7 @@ class PlanfixClient:
 
 
 def _task_list_items(payload: Mapping[str, Any]) -> list[dict[str, Any]]:
-    """Normalize Planfix task/list envelopes (list or nested object)."""
+    """Normalize ПланФикс task/list envelopes (list or nested object)."""
     tasks = payload.get("tasks")
     if isinstance(tasks, list):
         return [item for item in tasks if isinstance(item, dict)]

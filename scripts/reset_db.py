@@ -4,7 +4,7 @@ Run with ``.venv/bin/python scripts/reset_db.py --yes`` (or ``make reset-db``).
 Requires an explicit ``--yes`` so a stray run cannot erase data.
 
 Only ``DATABASE_URL`` is required (from the environment or ``.env``). Full bot /
-PlanFix settings are not loaded — a wipe must not depend on field IDs.
+ПланФикс settings are not loaded — a wipe must not depend on field IDs.
 """
 
 from __future__ import annotations
@@ -28,7 +28,7 @@ _DEFAULT_DATABASE_URL = "postgresql+asyncpg://payback:payback@127.0.0.1:5432/pay
 
 
 class _DatabaseSettings(BaseSettings):
-    """Minimal settings: wipe tools should not require PlanFix / bot secrets."""
+    """Minimal settings: wipe tools should not require ПланФикс / bot secrets."""
 
     model_config = SettingsConfigDict(
         env_file=os.environ.get("PAYBACK_ENV_FILE", ".env"),

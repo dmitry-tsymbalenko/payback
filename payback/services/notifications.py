@@ -60,7 +60,7 @@ class NotifierPort(Protocol):
         employee: User,
         expense: Expense,
     ) -> None:
-        """Clear buttons and note that the decision was made in PlanFix."""
+        """Clear buttons and note that the decision was made in ПланФикс."""
         ...
 
     async def notify_employee_decision(
@@ -81,7 +81,7 @@ class NotifierPort(Protocol):
 def format_employee_decision(*, expense: Expense, detail: str | None = None) -> str:
     """Build the Telegram text for an employee status/decision notification."""
     task_id = expense.planfix_task_id if expense.planfix_task_id is not None else expense.id
-    # Bot default parse mode is HTML; PlanFix/manager text may contain <>& .
+    # Bot default parse mode is HTML; ПланФикс/manager text may contain <>& .
     safe_detail = escape(detail) if detail else None
     if expense.status is ExpenseStatus.APPROVED:
         return NOTIFY_EMPLOYEE_APPROVED.format(task_id=task_id)

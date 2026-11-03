@@ -104,7 +104,7 @@ def create_app(
     dispatcher: Any | None = None,
     live_planfix_client: Any | None = None,
 ) -> FastAPI:
-    """Build the HTTP app (health + Planfix / Telegram webhook intake)."""
+    """Build the HTTP app (health + ПланФикс / Telegram webhook intake)."""
     settings = settings if settings is not None else get_settings()
     app = FastAPI(title="payback", version=__version__, lifespan=_lifespan)
     app.state.webhook_secret = settings.webhook_secret.get_secret_value()

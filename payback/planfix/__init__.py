@@ -1,4 +1,4 @@
-"""Planfix REST integration."""
+"""ПланФикс REST integration."""
 
 from payback.planfix.client import PlanfixClient
 from payback.planfix.directories import DirectoryCache
