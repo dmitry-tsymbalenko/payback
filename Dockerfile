@@ -10,8 +10,7 @@ ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \
     UV_PROJECT_ENVIRONMENT=/app/.venv
 
-COPY pyproject.toml uv.lock ./
-COPY docs/spec.md docs/spec.md
+COPY pyproject.toml uv.lock README.md ./
 COPY payback payback/
 COPY alembic alembic/
 COPY alembic.ini ./

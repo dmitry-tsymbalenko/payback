@@ -2,7 +2,7 @@
 name = "payback"
 version = "0.1.0"
 description = "Telegram bot for approving employee expenses in Planfix"
-readme = "docs/spec.md"
+readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "aiogram>=3.31",
