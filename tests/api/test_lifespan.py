@@ -1,6 +1,7 @@
 import asyncio
 
 import pytest
+from aiogram.types import Update
 from httpx import ASGITransport, AsyncClient
 
 from payback.api import create_app
@@ -50,7 +51,7 @@ class _FakeDispatcher:
         self.stopped = False
         self.handle_signals: bool | None = None
         self.close_bot_session: bool | None = None
-        self.fed_updates: list[object] = []
+        self.fed_updates: list[Update] = []
         self._stop = asyncio.Event()
         self._stopped = asyncio.Event()
 
@@ -78,7 +79,7 @@ class _FakeDispatcher:
         self._stop.set()
         await self._stopped.wait()
 
-    async def feed_update(self, _bot: object, update: object) -> None:
+    async def feed_update(self, _bot: object, update: Update) -> None:
         self.fed_updates.append(update)
 
 

@@ -2,7 +2,7 @@ from datetime import date
 from decimal import Decimal
 
 import pytest
-from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
+from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
 
 from payback.config import Settings
 from payback.db.models import ExpenseStatus, User, UserRole
@@ -53,7 +53,7 @@ def _draft(**overrides: object) -> SubmissionDraft:
 
 
 async def test_flush_pending_submissions_after_planfix_recovers(
-    env: dict[str, str], session: AsyncSession, db_engine
+    env: dict[str, str], session: AsyncSession, db_engine: AsyncEngine
 ) -> None:
     manager, employee = await _people(session)
     failing = FakePlanfix(fail_on="create_task")
@@ -87,7 +87,9 @@ async def test_flush_pending_submissions_after_planfix_recovers(
         assert row.planfix_task_id is not None
         task_id = row.planfix_task_id
     assert notifier.employee_texts
-    assert str(task_id) in notifier.employee_texts[0]["text"]
+    notify_text = notifier.employee_texts[0]["text"]
+    assert isinstance(notify_text, str)
+    assert str(task_id) in notify_text
 
 
 async def test_claim_next_pending_submission_returns_row(
@@ -110,7 +112,7 @@ async def test_claim_next_pending_submission_returns_row(
 
 @pytest.mark.skipif(using_sqlite_tests(), reason="FOR UPDATE SKIP LOCKED needs Postgres")
 async def test_second_claim_skips_locked_pending_row(
-    env: dict[str, str], session: AsyncSession, db_engine
+    env: dict[str, str], session: AsyncSession, db_engine: AsyncEngine
 ) -> None:
     manager, employee = await _people(session)
     fields = Settings().planfix.fields

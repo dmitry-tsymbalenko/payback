@@ -179,10 +179,10 @@ class PlanfixClient:
                 return None
             tasks = _task_list_items(response)
             for item in tasks:
-                description = (
-                    item.get("description") if isinstance(item.get("description"), str) else ""
-                )
-                name = item.get("name") if isinstance(item.get("name"), str) else ""
+                raw_description = item.get("description")
+                raw_name = item.get("name")
+                description = raw_description if isinstance(raw_description, str) else ""
+                name = raw_name if isinstance(raw_name, str) else ""
                 if marker in description or marker in name:
                     return _required_int(item, "id", "task list entry")
             if len(tasks) < _PAGE_SIZE:

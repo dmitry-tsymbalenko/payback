@@ -10,7 +10,11 @@ from tests.conftest import load_fixture
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from planfix_ids import format_report, match_fields, match_statuses  # noqa: E402
+from planfix_ids import (  # type: ignore[import-not-found]  # noqa: E402
+    format_report,
+    match_fields,
+    match_statuses,
+)
 
 
 def test_match_fields_flags_duplicate_category() -> None:

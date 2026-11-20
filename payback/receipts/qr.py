@@ -5,8 +5,8 @@ OpenCV is the required implementation. ZBar is deliberately optional because
 """
 
 import asyncio
-from collections.abc import Iterable
-from typing import Protocol
+from collections.abc import Callable, Iterable
+from typing import Any, Protocol, cast
 
 import cv2
 import numpy as np
@@ -90,14 +90,14 @@ class PyzbarQRCodeDecoder:
         return _dedupe_payloads(payloads)
 
 
-def _import_pyzbar_decode():
+def _import_pyzbar_decode() -> Callable[..., Any]:
     try:
         from pyzbar.pyzbar import decode
     except (ImportError, OSError) as error:
         raise QRDecoderUnavailableError(
             "pyzbar requires the optional zbar dependency and libzbar.so"
         ) from error
-    return decode
+    return cast(Callable[..., Any], decode)
 
 
 _default_decoders: tuple[QRDecoder, ...] | None = None
